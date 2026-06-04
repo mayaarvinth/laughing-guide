@@ -1,0 +1,15 @@
+{
+  "short_name": "Scrapbook",
+  "name": "Dads 50th Bday",
+  "icons": [
+    {
+      "src": "cover-family.JPG",
+      "type": "image/jpeg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "index.html",
+  "background_color": "#fdf8f0",
+  "display": "standalone",
+  "orientation": "portrait"
+}
