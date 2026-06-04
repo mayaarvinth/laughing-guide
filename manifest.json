@@ -8,7 +8,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "index.html",
+  "start_url": "/laughing-guide/index.html",
   "background_color": "#fdf8f0",
   "display": "standalone",
   "orientation": "portrait"
