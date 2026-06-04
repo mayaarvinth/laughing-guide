@@ -5,11 +5,10 @@
     {
       "src": "cover-family.JPG",
       "type": "image/jpeg",
-      "sizes": "512x512"
+      "sizes": "768x768"
     }
   ],
   "start_url": "/laughing-guide/index.html",
-  "background_color": "#fdf8f0",
   "display": "standalone",
   "orientation": "portrait"
 }
