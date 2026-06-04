@@ -15,17 +15,45 @@
     }
   .sb-root{display:flex;flex-direction:column;align-items:center;padding:1.5rem 0 2.5rem;user-select:none;font-family:'Caveat',cursive;}
   .sb-hint{font-family:'Caveat',cursive;font-size:13px;color:#9e8c75;letter-spacing:.05em;margin-bottom:10px;}
-  .sb-book{position:relative;width:660px;}
+  .sb-book {
+    position: relative;
+    width: 90vw;            /* Changes the rigid 660px into a fluid 90% of the screen width */
+    max-width: 1000px;      /* Caps it at a beautiful desktop scale so it doesn't get distorted */
+    min-width: 600px;       /* Keeps it structurally sound on smaller screen frames */
+    margin: 0 auto;
+}
   .sb-spread{display:none;width:100%;animation:fadeIn .28s ease;}
   .sb-spread.active{display:flex;}
   @keyframes fadeIn{from{opacity:.5;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
 
   /* Normalized padding on all pages to keep top baselines identical */
-  .sb-page{flex:1;min-height:520px;padding:22px 24px;position:relative;border:1.5px solid rgba(139,115,85,.25);overflow:hidden;display:flex;flex-direction:column;}
+  .sb-page {
+    flex: 1;
+    min-height: 70vh;       /* Dynamically sets page height based on 70% of the screen's view height */
+    padding: 3.5% 4%;       /* Uses percentage padding so spaces shrink and grow naturally */
+    position: relative;
+    border: 1.5px solid rgba(139,115,85,.25);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;}  
   .page-left{border-radius:4px 0 0 4px;border-right:none;}
   .page-right{border-radius:0 4px 4px 0;}
 
-  .page-cover-single{width:100%;min-height:520px;padding:28px 32px;border-radius:4px;border:1.5px solid rgba(139,115,85,.25);position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:#f5e6c8;}
+  .page-cover-single {
+    width: 100%;
+    min-height: 70vh;       /* Matches the fluid book profile height */
+    padding: 4% 5%;
+    border-radius: 4px;
+    border: 1.5px solid rgba(139,115,85,.25);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: #f5e6c8;
+  }  
   .page-cover-single::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(200,170,120,.06) 18px,rgba(200,170,120,.06) 19px);}
 
   .bg-cream{background:#fdf8f0;}
@@ -61,7 +89,18 @@
       flex-shrink: 0;
   }
 
-  .cover-img-drop{width:450px;height:300px;border:2.5px dashed rgba(139,115,85,.45);border-radius:4px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:rgba(255,255,255,.4);}
+  .cover-img-drop {
+    width: 80%;             /* Fits cleanly inside its container dynamically */
+    height: 40vh;           /* Automatically balances its frame height ratio */
+    border: 2.5px dashed rgba(139,115,85,.45);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255,255,255,.4);
+}  
   .cover-img-drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
   .cover-deco{font-family:'Caveat',cursive;font-style:italic;font-size:20px;color:rgba(139,115,85,.55);}
 
@@ -920,38 +959,15 @@ function handleDotMover() {
     if (runawayCount >= 3) return; 
     
     const parentPage = runawayDot.parentElement;
-    const paddingOffset = 30;
+    const rect = parentPage.getBoundingClientRect();
+    const paddingOffset = 35;
     
-    // Track current position metrics
-    const currentRect = runawayDot.getBoundingClientRect();
-    const currentX = runawayDot.offsetLeft;
-    const currentY = runawayDot.offsetTop;
+    // Grabs active rendering metrics directly from the user's viewport window profile
+    const maxX = rect.width - paddingOffset - runawayDot.clientWidth;
+    const maxY = rect.height - paddingOffset - runawayDot.clientHeight;
     
-    const maxX = parentPage.clientWidth - paddingOffset - runawayDot.clientWidth;
-    const maxY = parentPage.clientHeight - paddingOffset - runawayDot.clientHeight;
-    
-    let randomX = currentX;
-    let randomY = currentY;
-    let distance = 0;
-    
-    // Scale distance exponentially on each hover iteration step profile context
-    // Jump 1: min 80px distance | Jump 2: min 160px distance | Jump 3: min 245px distance
-    const minDistanceThreshold = (runawayCount + 1) * 120; 
-    let loopGuard = 0;
-
-    while (distance < minDistanceThreshold && loopGuard < 100) {
-        let tempX = Math.floor(Math.random() * (maxX - paddingOffset)) + paddingOffset;
-        let tempY = Math.floor(Math.random() * (maxY - paddingOffset)) + paddingOffset;
-        
-        // Calculate hypotenuse delta stretch paths 
-        distance = Math.sqrt(Math.pow(tempX - currentX, 2) + Math.pow(tempY - currentY, 2));
-        if (distance >= minDistanceThreshold || loopGuard > 85) {
-            randomX = tempX;
-            randomY = tempY;
-            break;
-        }
-        loopGuard++;
-    }
+    const randomX = Math.floor(Math.random() * (maxX - paddingOffset)) + paddingOffset;
+    const randomY = Math.floor(Math.random() * (maxY - paddingOffset)) + paddingOffset;
     
     runawayDot.style.bottom = 'auto';
     runawayDot.style.right = 'auto';
