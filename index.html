@@ -18,23 +18,21 @@
     .sb-root{display:flex;flex-direction:column;align-items:center;padding:1.5rem 0 2.5rem;user-select:none;font-family:'Caveat',cursive;}
     .sb-hint{font-family:'Caveat',cursive;font-size:13px;color:#9e8c75;letter-spacing:.05em;margin-bottom:10px;}
     
+    /* Strict fixed scrapbook framework restored */
     .sb-book {
         position: relative;
-        width: 90vw;            /* Changes the rigid 660px into a fluid 90% of the screen width */
-        max-width: 1000px;      /* Caps it at a beautiful desktop scale so it doesn't get distorted */
-        min-width: 600px;       /* Keeps it structurally sound on smaller screen frames */
-        margin: 0 auto;
+        width: 660px;
     }
     
     .sb-spread{display:none;width:100%;animation:fadeIn .28s ease;}
     .sb-spread.active{display:flex;}
     @keyframes fadeIn{from{opacity:.5;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
 
-    /* Normalized padding on all pages to keep top baselines identical */
+    /* Original static layout specs restored */
     .sb-page {
         flex: 1;
-        min-height: 70vh;       /* Dynamically sets page height based on 70% of the screen's view height */
-        padding: 3.5% 4%;       /* Uses percentage padding so spaces shrink and grow naturally */
+        min-height: 520px;
+        padding: 22px 24px;
         position: relative;
         border: 1.5px solid rgba(139,115,85,.25);
         overflow: hidden;
@@ -46,8 +44,8 @@
 
     .page-cover-single {
         width: 100%;
-        min-height: 70vh;       /* Matches the fluid book profile height */
-        padding: 4% 5%;
+        min-height: 520px;
+        padding: 28px 32px;
         border-radius: 4px;
         border: 1.5px solid rgba(139,115,85,.25);
         position: relative;
@@ -77,7 +75,6 @@
 
     .cover-title-in{font-family:'Playfair Display',serif;font-size:35px;font-weight:700;color:#4a3728;background:transparent;border:none;border-bottom:2px dashed rgba(139,115,85,.4);text-align:center;width:80%;padding:4px 0;}
 
-    /* Uniform global Title layout baseline metrics */
     .pg-title-in{
         font-family:'Caveat',cursive;
         font-size:22px;
@@ -95,8 +92,8 @@
     }
 
     .cover-img-drop {
-        width: 80%;             /* Fits cleanly inside its container dynamically */
-        height: 40vh;           /* Automatically balances its frame height ratio */
+        width: 450px;
+        height: 300px;
         border: 2.5px dashed rgba(139,115,85,.45);
         border-radius: 4px;
         display: flex;
@@ -356,7 +353,6 @@
         padding: 30px;
         animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    /* Enhanced Bold Structural Headings */
     .bd-headline {
         font-family: 'Arial Black', -apple-system, sans-serif;
         font-weight: 900;
@@ -964,15 +960,12 @@ const celebrationAudio = document.getElementById('celebration-audio');
 function handleDotMover() {
     if (runawayCount >= 3) return; 
     
-    const parentPage = runawayDot.parentElement;
-    const rect = parentPage.getBoundingClientRect();
-    const paddingOffset = 35;
+    // Stable layout boundaries (330px width half-page wrapper metrics)
+    const maxX = 330 - 35 - runawayDot.clientWidth;
+    const maxY = 520 - 35 - runawayDot.clientHeight;
     
-    const maxX = rect.width - paddingOffset - runawayDot.clientWidth;
-    const maxY = rect.height - paddingOffset - runawayDot.clientHeight;
-    
-    const randomX = Math.floor(Math.random() * (maxX - paddingOffset)) + paddingOffset;
-    const randomY = Math.floor(Math.random() * (maxY - paddingOffset)) + paddingOffset;
+    const randomX = Math.floor(Math.random() * (maxX - 35)) + 35;
+    const randomY = Math.floor(Math.random() * (maxY - 35)) + 35;
     
     runawayDot.style.bottom = 'auto';
     runawayDot.style.right = 'auto';
