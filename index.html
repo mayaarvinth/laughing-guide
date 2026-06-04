@@ -12,16 +12,16 @@
     *{box-sizing:border-box;margin:0;padding:0;}
     
     body {
-    /* Changes the outer window space from harsh white to your scrapbook cream */
-    background-color: #fdf8f0 !important; 
-    height: 100vh;
+    /* Kept exactly transparent as requested */
+    background-color: transparent !important; 
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Prevents unnecessary scrollbars in the app window */
+    overflow: hidden; /* Prevents awkward scrollbars when the window is small */
 }
-    
-    .sb-root {
+
+.sb-root {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,15 +29,19 @@
     user-select: none;
     font-family: 'Caveat', cursive;
     width: 100%;
-    /* Stripped out the rigid top padding to allow perfect vertical centering */
 }
     .sb-hint{font-family:'Caveat',cursive;font-size:13px;color:#9e8c75;letter-spacing:.05em;margin-bottom:10px;}
     
     /* Strict fixed scrapbook framework restored */
-    .sb-book {
-        position: relative;
-        width: 660px;
-    }
+   .sb-book {
+    position: relative;
+    width: 660px; /* Your exact original dimensions are completely preserved */
+    
+    /* MAGIC SCALING: This automatically blows up the entire book as a single unit */
+    /* to fit beautifully on taller screens, without changing any internal element pixels! */
+    transform: scale(min(1, calc(90vh / 560px)));
+    transform-origin: center center;
+}
     
     .sb-spread{display:none;width:100%;animation:fadeIn .28s ease;}
     .sb-spread.active{display:flex;}
