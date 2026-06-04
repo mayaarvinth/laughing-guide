@@ -31,22 +31,18 @@
         height: 100vh;
     }
     
-    /* Hides the top swipe text completely to free up valuable screen height */
     .sb-hint {
         display: none !important;
     }
     
     .sb-book {
         position: relative;
-        width: 660px; /* Your original dimensions stay 100% untouched */
-        
-        /* Boosts the scaling multiplier to fill the window frame height completely */
+        width: 660px;
         transform: scale(calc(99vh / 520px)); 
         transform-origin: center center;
         flex-shrink: 0;
     }
     
-    /* Takes the navigation out of the normal layout flow so it doesn't push the book up */
     .nav-row {
         position: absolute;
         bottom: 12px;
@@ -63,7 +59,6 @@
     .sb-spread.active{display:flex;}
     @keyframes fadeIn{from{opacity:.5;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
 
-    /* Original static layout specs restored */
     .sb-page {
         flex: 1;
         min-height: 520px;
@@ -207,98 +202,104 @@
     .nav-btn:disabled{opacity:.3;cursor:default;}
     .pg-ind{font-family:'Caveat',cursive;font-size:14px;color:#9e8c75;min-width:80px;text-align:center;}
 
-    /* --- Floating Gallery Window Overlay --- */
+    /* --- Re-engineered Mini Window Box Overlay Styling --- */
     .popup-overlay {
         display: none;
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(5px);
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.3); /* Dimmed click-to-exit background shadow */
+        backdrop-filter: blur(4px);
         z-index: 99999;
         justify-content: center;
         align-items: center;
     }
+    
+    /* Elegant, tight structural mini container layout card */
     .popup-window {
-        background: #ffffff;
-        width: 90%;
-        max-width: 750px;
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        background: #fdf8f0; 
+        border: 2px solid #7a6040;
+        width: 85vw;
+        max-width: 520px; /* Locked down mini window aspect threshold */
+        height: auto;
+        border-radius: 12px;
+        padding: 50px 55px 25px 55px; /* Added padding values to keep components compact */
+        box-shadow: 0 16px 40px rgba(74, 55, 40, 0.25);
         position: relative;
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        animation: popIn 0.25s ease-out;
+        justify-content: center;
+        align-items: center;
+        animation: popIn 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.15);
     }
-    @keyframes popIn {
-        from { transform: scale(0.95); opacity: 0; }
-        to { transform: scale(1); opacity: 1; }
-    }
+    
     .close-window-btn {
         position: absolute;
-        top: 16px;
-        right: 20px;
-        background: none;
-        border: none;
-        font-size: 28px;
+        top: 14px;
+        left: 14px; /* Tucked cleanly to the top left of the mini window */
+        background: #e8d5b7;
+        border: 1.5px solid rgba(139,115,85,.4);
+        font-size: 16px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
-        color: #999;
-        transition: color 0.2s;
-        z-index: 10;
+        color: #4a3728;
+        transition: background 0.2s;
+        z-index: 100;
+        font-family: sans-serif;
     }
     .close-window-btn:hover {
-        color: #333;
+        background: #dcc9a8;
     }
+    
     .featured-display {
         width: 100%;
-        height: 380px;
+        height: 340px; /* Fixed proportional presentation box height */
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #fafafa;
-        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.3);
+        border: 1px dashed rgba(139,115,85,.3);
+        border-radius: 4px;
         overflow: hidden;
+        position: relative;
     }
     .featured-display img {
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
     }
-    .window-gallery-strip {
+    
+    /* Compact arrows brought directly near the container frame */
+    .popup-nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #e8d5b7;
+        border: 1.5px solid rgba(139,115,85,.4);
+        color: #4a3728;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
         display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        padding-bottom: 8px;
-    }
-    .window-gallery-strip::-webkit-scrollbar {
-        height: 6px;
-    }
-    .window-gallery-strip::-webkit-scrollbar-thumb {
-        background: #ddd;
-        border-radius: 4px;
-    }
-    .strip-thumb {
-        width: 80px;
-        height: 55px;
-        object-fit: cover;
-        border-radius: 4px;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
         cursor: pointer;
-        opacity: 0.4;
-        transition: opacity 0.2s, border 0.2s;
-        border: 2px solid transparent;
-        flex-shrink: 0;
+        transition: background 0.2s;
+        z-index: 10;
     }
-    .strip-thumb:hover, .strip-thumb.active {
-        opacity: 1;
-        border-color: #b8945a;
+    .popup-nav-btn:hover {
+        background: #dcc9a8;
     }
-    @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
+    .popup-prev { left: 12px; }
+    .popup-next { right: 12px; }
+    
+    .window-gallery-strip {
+        display: none !important;
     }
 
     /* --- VINYL DISK DESIGN --- */
@@ -772,12 +773,14 @@
   </div>
 </div>
 
-<div class="popup-overlay" id="galleryPopup">
-    <div class="popup-window">
+<div class="popup-overlay" id="galleryPopup" onclick="closeGalleryPopup()">
+    <div class="popup-window" onclick="event.stopPropagation()">
         <button class="close-window-btn" onclick="closeGalleryPopup()">&times;</button>
+        <button class="popup-nav-btn popup-prev" onclick="flipPopupImage(-1, event)">◀</button>
         <div class="featured-display">
             <img id="popup-featured-img" src="" alt="Selected view">
         </div>
+        <button class="popup-nav-btn popup-next" onclick="flipPopupImage(1, event)">▶</button>
         <div class="window-gallery-strip" id="popupThumbnailStrip"></div>
     </div>
 </div>
@@ -859,83 +862,74 @@ function changeGal(btn, direction, event) {
 }
 
 /* =======================================================
-   LIGHTBOX OVERLAY LOGIC (EXCLUDES COVER ART)
+   RE-ENGINEERED POPUP WINDOW LOGIC
    ======================================================= */
 const galleryPopup = document.getElementById('galleryPopup');
 const popupFeaturedImg = document.getElementById('popup-featured-img');
-const popupThumbnailStrip = document.getElementById('popupThumbnailStrip');
-
-function getScrapbookImages() {
-    return Array.from(document.querySelectorAll('.sb-spread:not(#sp0) .photo-slot'));
-}
+let currentActiveSlot = null; 
 
 document.querySelectorAll('.sb-spread:not(#sp0) .photo-slot').forEach((slot) => {
     slot.addEventListener('click', function(e) {
         if (e.target.classList.contains('gal-arrow')) return;
         
+        var images = this.querySelectorAll('img');
+        if (images.length <= 1) return;
+        
         e.stopPropagation();
-        var allSlots = getScrapbookImages();
-        var currentSlotIndex = allSlots.indexOf(this);
-        openGalleryPopup(currentSlotIndex);
+        currentActiveSlot = this;
+        openGalleryPopup();
     });
 });
 
-function buildPopupStrip() {
-    popupThumbnailStrip.innerHTML = ''; 
-    var allSlots = getScrapbookImages();
-    
-    allSlots.forEach((slot, index) => {
-        var activeImg = slot.querySelector('img.active') || slot.querySelector('img');
-        if (!activeImg) return;
-
-        const thumb = document.createElement('img');
-        thumb.src = activeImg.src;
-        thumb.alt = activeImg.alt || `Memory item ${index + 1}`;
-        thumb.className = 'strip-thumb';
-        thumb.onclick = (e) => {
-            e.stopPropagation();
-            viewImage(index);
-        };
-        popupThumbnailStrip.appendChild(thumb);
-    });
-}
-
-function openGalleryPopup(startIndex) {
-    buildPopupStrip();
+function openGalleryPopup() {
     galleryPopup.style.display = 'flex';
-    viewImage(startIndex);
+    syncPopupDisplay();
 }
 
-function viewImage(index) {
-    const thumbs = document.querySelectorAll('.strip-thumb');
-    var allSlots = getScrapbookImages();
-    var targetedImg = allSlots[index].querySelector('img.active') || allSlots[index].querySelector('img');
+function syncPopupDisplay() {
+    if (!currentActiveSlot) return;
+    var activeImg = currentActiveSlot.querySelector('img.active') || currentActiveSlot.querySelector('img');
+    if (activeImg) {
+        popupFeaturedImg.src = activeImg.src;
+        popupFeaturedImg.alt = activeImg.alt;
+    }
+}
 
-    if (targetedImg) {
-        popupFeaturedImg.src = targetedImg.src;
-        popupFeaturedImg.alt = targetedImg.alt;
+function flipPopupImage(direction, event) {
+    if (event) event.stopPropagation();
+    if (!currentActiveSlot) return;
+
+    var images = currentActiveSlot.querySelectorAll('img');
+    if (images.length <= 1) return;
+
+    var activeIndex = -1;
+    for (var i = 0; i < images.length; i++) {
+        if (images[i].classList.contains('active')) {
+            activeIndex = i;
+            images[i].classList.remove('active');
+            break;
+        }
     }
 
-    thumbs.forEach((thumb, idx) => {
-        if (idx === index) {
-            thumb.classList.add('active');
-            thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        } else {
-            thumb.classList.remove('active');
-        }
-    });
+    var nextIndex = activeIndex + direction;
+    if (nextIndex >= images.length) nextIndex = 0;
+    if (nextIndex < 0) nextIndex = images.length - 1;
+
+    images[nextIndex].classList.add('active');
+    syncPopupDisplay();
 }
 
 function closeGalleryPopup() {
     galleryPopup.style.display = 'none';
+    currentActiveSlot = null;
 }
 
-galleryPopup.addEventListener('click', function(e) {
-    if (e.target === galleryPopup) closeGalleryPopup();
-});
-
 document.addEventListener('keydown', function(e) {
-    if (galleryPopup.style.display === 'flex' && e.key === 'Escape') closeGalleryPopup();
+    if (galleryPopup.style.display === 'flex') {
+        if (e.key === 'Escape') closeGalleryPopup();
+        if (e.key === 'ArrowLeft') flipPopupImage(-1);
+        if (e.key === 'ArrowRight') flipPopupImage(1);
+    }
 });
 
 /* =======================================================
@@ -995,13 +989,18 @@ const celebrationAudio = document.getElementById('celebration-audio');
 function handleDotMover() {
     if (runawayCount >= 3) return; 
     
-    // Stable layout boundaries (330px width half-page wrapper metrics)
-    const maxX = 330 - 35 - runawayDot.clientWidth;
-    const maxY = 520 - 35 - runawayDot.clientHeight;
+    // We base the boundaries strictly on your original, unscaled pixel layout dimensions
+    // Half-page width is 330px, and full-page height is 520px
+    const paddingOffset = 35;
     
-    const randomX = Math.floor(Math.random() * (maxX - 35)) + 35;
-    const randomY = Math.floor(Math.random() * (maxY - 35)) + 35;
+    const maxX = 330 - paddingOffset - runawayDot.clientWidth;
+    const maxY = 520 - paddingOffset - runawayDot.clientHeight;
     
+    // Generate clean coordinates within the unscaled box space
+    const randomX = Math.floor(Math.random() * (maxX - paddingOffset)) + paddingOffset;
+    const randomY = Math.floor(Math.random() * (maxY - paddingOffset)) + paddingOffset;
+    
+    // Apply coordinates safely
     runawayDot.style.bottom = 'auto';
     runawayDot.style.right = 'auto';
     runawayDot.style.left = randomX + 'px';
