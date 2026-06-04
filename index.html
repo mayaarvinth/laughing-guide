@@ -1,0 +1,1055 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dad's 50th Birthday Scrapbook</title>
+
+    <!-- Paste Step 2 directly right here: -->
+    <link rel="manifest" href="manifest.json">
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Playfair+Display:ital@1&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0;}
+  .sb-root{display:flex;flex-direction:column;align-items:center;padding:1.5rem 0 2.5rem;user-select:none;font-family:'Caveat',cursive;}
+  .sb-hint{font-family:'Caveat',cursive;font-size:13px;color:#9e8c75;letter-spacing:.05em;margin-bottom:10px;}
+  .sb-book{position:relative;width:660px;}
+  .sb-spread{display:none;width:100%;animation:fadeIn .28s ease;}
+  .sb-spread.active{display:flex;}
+  @keyframes fadeIn{from{opacity:.5;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
+
+  /* Normalized padding on all pages to keep top baselines identical */
+  .sb-page{flex:1;min-height:520px;padding:22px 24px;position:relative;border:1.5px solid rgba(139,115,85,.25);overflow:hidden;display:flex;flex-direction:column;}
+  .page-left{border-radius:4px 0 0 4px;border-right:none;}
+  .page-right{border-radius:0 4px 4px 0;}
+
+  .page-cover-single{width:100%;min-height:520px;padding:28px 32px;border-radius:4px;border:1.5px solid rgba(139,115,85,.25);position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:#f5e6c8;}
+  .page-cover-single::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(200,170,120,.06) 18px,rgba(200,170,120,.06) 19px);}
+
+  .bg-cream{background:#fdf8f0;}
+  .bg-cream::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(transparent,transparent 27px,rgba(180,160,130,.14) 28px);}
+  .bg-kraft{background:#e8d5b7;}
+  .bg-pale{background:#f2ede4;}
+  .bg-pale::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(transparent,transparent 27px,rgba(160,140,110,.12) 28px);}
+  .bg-blush{background:#f5ece8;}
+  .bg-sage{background:#edf0e8;}
+
+  .rings-spine{position:absolute;top:10px;bottom:10px;left:50%;transform:translateX(-50%);width:40px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;z-index:20;pointer-events:none;}
+  .ring{width:34px;height:8px;border-radius:4px;border:2px solid #7a6040;background:#b8945a;position:relative;flex-shrink:0;box-shadow:inset 0 1px 1px rgba(255,255,255,0.4);}
+  .ring::after{content:'';position:absolute;left:-2px;top:2px;width:34px;height:2px;background:#7a6040;}
+
+  .spine-line{position:absolute;top:0;bottom:0;left:50%;width:4px;background:#c4a97d;transform:translateX(-50%);z-index:18;}
+
+  .cover-title-in{font-family:'Playfair Display',serif;font-size:35px;font-weight:700;color:#4a3728;background:transparent;border:none;border-bottom:2px dashed rgba(139,115,85,.4);text-align:center;width:80%;padding:4px 0;}
+
+  /* Uniform global Title layout baseline metrics */
+  .pg-title-in{
+      font-family:'Caveat',cursive;
+      font-size:22px;
+      font-weight:700;
+      color:#4a3728;
+      background:transparent;
+      border:none;
+      border-bottom:2px dashed rgba(139,115,85,.3);
+      width:100%;
+      height:34px;
+      line-height:30px;
+      margin-bottom:14px;
+      display:block;
+      flex-shrink: 0;
+  }
+
+  .cover-img-drop{width:450px;height:300px;border:2.5px dashed rgba(139,115,85,.45);border-radius:4px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:rgba(255,255,255,.4);}
+  .cover-img-drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .cover-deco{font-family:'Caveat',cursive;font-style:italic;font-size:20px;color:rgba(139,115,85,.55);}
+
+  .photo-slot{border:1.5px dashed rgba(139,115,85,.42);border-radius:2px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:rgba(255,255,255,.42);cursor:pointer;transition:transform 0.2s ease;}
+  .photo-slot:hover{transform:scale(1.015);z-index:2;}
+  .photo-slot img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 1px;
+      display: block;
+  }
+  .photo-slot img:not(.active):not([src="me.jpeg"]) {
+      display: none;
+  }
+
+  .gal-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(245,230,200,0.85);border:1px solid #7a6040;color:#4a3728;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;cursor:pointer;opacity:0;transition:opacity 0.2s ease;z-index:10;font-family:sans-serif;}
+  .photo-slot:hover .gal-arrow{opacity:1;}
+  .gal-arrow:hover{background:#e8d5b7;color:#4a3728;}
+  .gal-prev{left:6px;}
+  .gal-next{right:6px;}
+
+  .cap{
+      font-family:'Caveat',cursive;
+      font-size:16px;
+      color:#4a3728; 
+      text-align:left;
+      width:100%;
+      padding:2px 0;
+      margin-top:4px;
+      line-height:1.2;
+  }
+
+  .cap-block{
+      font-family:'Caveat',cursive;
+      font-size:15px;
+      color:#6b5740;
+      background:rgba(255,255,255,.28);
+      border:1px dashed rgba(139,115,85,.3);
+      border-radius:2px;
+      width:100%;
+      padding:6px 8px;
+      line-height:1.5;
+      white-space:pre-wrap; 
+  }
+
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .g-asym{display:grid;grid-template-columns:1.5fr 1fr;gap:10px;}
+  .mt8{margin-top:8px;}.mt12{margin-top:12px;}
+
+  .tape{position:absolute;background:rgba(255,235,140,.5);border:1px solid rgba(200,180,90,.3);}
+  .washi-t{position:absolute;top:0;left:0;right:0;height:12px;background:repeating-linear-gradient(90deg,#f4a06a 0 14px,#f7c59a 14px 28px);opacity:.4;}
+  .washi-b{position:absolute;bottom:0;left:0;right:0;height:12px;background:repeating-linear-gradient(90deg,#84b8c4 0 14px,#aed3db 14px 28px);opacity:.4;}
+  .corner-dec{position:absolute;width:14px;height:14px;border-color:rgba(139,115,85,.3);border-style:solid;}
+  .c-tl{top:8px;left:8px;border-width:2px 0 0 2px;}
+  .c-tr{top:8px;right:8px;border-width:2px 2px 0 0;}
+  .c-bl{bottom:8px;left:8px;border-width:0 0 2px 2px;}
+  .c-br{bottom:8px;right:8px;border-width:0 2px 2px 0;}
+  .stk{position:absolute;font-size:20px;opacity:.65;pointer-events:none;}
+
+  .nav-row{display:flex;justify-content:center;align-items:center;gap:24px;margin-top:14px;}
+  .nav-btn{font-family:'Caveat',cursive;font-size:15px;background:#e8d5b7;border:1.5px solid rgba(139,115,85,.4);border-radius:3px;padding:5px 18px;cursor:pointer;color:#4a3728;}
+  .nav-btn:hover{background:#dcc9a8;}
+  .nav-btn:disabled{opacity:.3;cursor:default;}
+  .pg-ind{font-family:'Caveat',cursive;font-size:14px;color:#9e8c75;min-width:80px;text-align:center;}
+
+  /* --- Floating Gallery Window Overlay --- */
+  .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+  }
+  .popup-window {
+      background: #ffffff;
+      width: 90%;
+      max-width: 750px;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      animation: popIn 0.25s ease-out;
+  }
+  @keyframes popIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+  }
+  .close-window-btn {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: #999;
+      transition: color 0.2s;
+      z-index: 10;
+  }
+  .close-window-btn:hover {
+      color: #333;
+  }
+  .featured-display {
+      width: 100%;
+      height: 380px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #fafafa;
+      border-radius: 8px;
+      overflow: hidden;
+  }
+  .featured-display img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+  }
+  .window-gallery-strip {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+  }
+  .window-gallery-strip::-webkit-scrollbar {
+      height: 6px;
+  }
+  .window-gallery-strip::-webkit-scrollbar-thumb {
+      background: #ddd;
+      border-radius: 4px;
+  }
+  .strip-thumb {
+      width: 80px;
+      height: 55px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      opacity: 0.4;
+      transition: opacity 0.2s, border 0.2s;
+      border: 2px solid transparent;
+      flex-shrink: 0;
+  }
+  .strip-thumb:hover, .strip-thumb.active {
+      opacity: 1;
+      border-color: #b8945a;
+  }
+  @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+  }
+
+  /* --- VINYL DISK DESIGN --- */
+  .vinyl-container {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #000 30%, #111 60%, #222 70%, #000 90%);
+      box-shadow: 0 4px 10px rgba(118, 118, 118, 0.3), inset 0 0 2px rgba(255, 255, 255, 0.3);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-left: 5px;
+  }
+  .vinyl-container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, transparent 15%, rgba(255,255,255,0.08) 25%, transparent 35%, transparent 65%, rgba(255,255,255,0.08) 75%, transparent 85%);
+  }
+  .vinyl-label {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #b8945a; 
+      border: 1px solid #7a6040;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+  }
+  .vinyl-center-hole {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #e8d5b7; 
+      box-shadow: inset 0 1px 1px rgba(0,0,0,0.5);
+  }
+  .spinning-active {
+      animation: spin 3s linear infinite !important;
+  }
+
+  /* --- EASTER EGG GAME ELEMENTS --- */
+  .runaway-dot {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color: #d9534f;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      z-index: 999;
+      bottom: 25px;
+      right: 35px;
+      transition: all 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .game-hint-text {
+      position: absolute;
+      bottom: 22px;
+      right: 58px;
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      color: #b33939;
+      pointer-events: none;
+      animation: nudgeHint 1.5s ease infinite alternate;
+  }
+  @keyframes nudgeHint {
+      from { transform: translateX(0); }
+      to { transform: translateX(-4px); }
+  }
+
+  /* Fullscreen Birthday Window Overlay */
+  .bd-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(253, 248, 240, 0.99); 
+      z-index: 999999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px;
+      animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  /* Enhanced Blue Bold Structural Headings */
+  .bd-headline {
+      font-family: 'Arial Black', -apple-system, sans-serif;
+      font-weight: 900;
+      font-size: 90px; /* Upgraded size threshold */
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+      z-index: 2;
+      /* Solid custom deep navy-to-ocean blue color spectrum profiles */
+      background: linear-gradient(135deg, #1e3799 20%, #0a3d62 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.08));
+  }
+  .bd-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+  }
+  .bd-photo-frame {
+    width: 250px;       
+    height: 440px;      
+    border: none;       
+    box-shadow: none;   /* Removed the shadow so it doesn't look like a solid box */
+    border-radius: 0px;
+    overflow: hidden;
+    z-index: 2;
+    transform: rotate(-1.5deg);
+    background: transparent; /* Made the box background completely clear */
+  }
+  .bd-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+  .bd-close-btn {
+      font-family: 'Caveat', cursive;
+      font-size: 18px;
+      color: #7a6040;
+      background: #e8d5b7;
+      border: 1.5px solid rgba(139,115,85,.4);
+      padding: 6px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      z-index: 2;
+      margin-top: 10px;
+  }
+  .bd-close-btn:hover {
+      background: #dcc9a8;
+  }
+  </style>
+<head>
+<h2 class="sr-only">hi</h2>
+<div class="sb-root">
+  <div class="sb-hint">swipe or drag to flip pages &nbsp;·&nbsp; use arrows inside pages to explore independent galleries</div>
+  <div class="sb-book" id="book">
+
+    <div class="spine-line"></div>
+    <div class="rings-spine" id="rings">
+      <div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div>
+      <div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div>
+      <div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div>
+      <div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div>
+      <div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div>
+      <div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div>
+    </div>
+
+    <div class="sb-spread active" id="sp0" style="justify-content:center;">
+      <div class="page-cover-single">
+        <div class="corner-dec c-tl"></div><div class="corner-dec c-tr"></div>
+        <div class="corner-dec c-bl"></div><div class="corner-dec c-br"></div>
+        <div class="tape" style="width:70px;height:14px;top:-7px;left:50%;transform:translateX(-50%) rotate(-1deg);"></div>
+        <div style="font-family:'Caveat',cursive;font-size:18px;letter-spacing:.12em;color:#8B7355;margin-bottom:4px;">✦ maya presents ✦</div>
+        <div class="cover-title-in">Arvinth's 50th Layout Collection</div>
+        
+        <div class="cover-img-drop" id="covDrop">
+          <img src="cover-family.JPG" alt="Cover Image">
+        </div>
+
+        <div class="cover-deco">Around the world</div>
+        <span class="stk" style="bottom:22px;right:24px;transform:rotate(12deg);font-size:26px;">🌎</span>
+        <span class="stk" style="bottom:54px;left:20px;transform:rotate(-7deg);">⭐</span>
+        <span class="stk" style="top:22px;right:28px;transform:rotate(8deg);">✈️</span>
+      </div>
+    </div>
+
+    <div class="sb-spread" id="sp1">
+      <div class="sb-page page-left bg-cream">
+        <div class="washi-t"></div>
+        <div class="corner-dec c-tl"></div><div class="corner-dec c-bl"></div>
+        <div class="tape" style="width:60px;height:13px;top:-6px;left:30px;transform:rotate(-2deg);"></div>
+        <div class="pg-title-in">Albums</div>
+        
+        <div class="photo-slot" style="height:200px;">
+          <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+          <img src="albums-1.PNG" class="active" alt="Family Stack A1">
+          <img src="albums-2.PNG" alt="Family Stack A2">
+          <img src="albums-3.PNG" alt="Family Stack A3">
+          <img src="albums-4.JPEG" alt="Family Stack A4">
+          <img src="albums-5.JPEG" alt="Family Stack A5">
+          <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+        </div>
+        <div class="cap">2000s baddie</div>
+        
+        <div class="mt12 g2">
+          <div>
+            <div class="photo-slot" style="height:120px;">
+              <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+              <img src="b1.PNG" class="active" alt="Family Stack B1">
+              <img src="b2.JPG" alt="Family Stack B2">
+              <img src="b3.JPG" alt="Family Stack B3">
+              <img src="b4.JPG" alt="Family Stack B4">
+              <img src="b5.JPG" alt="Family Stack B5">
+              <img src="b6.JPG" alt="Family Stack B6">
+              <img src="b7.JPG" alt="Family Stack B7">
+              <img src="b8.JPG" alt="Family Stack B8">
+              <img src="b9.JPG" alt="Family Stack B9">
+              <img src="b10.JPG" alt="Family Stack B10">
+              <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+            </div>
+            <div class="cap">smiley dad</div>
+          </div>
+          <div>
+            <div class="photo-slot" style="height:120px;">
+              <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+              <img src="c1.jpg" class="active" alt="Family Stack C1">
+              <img src="c2.jpg" alt="Family Stack C2">
+              <img src="c3.jpg" alt="Family Stack C3">
+              <img src="c4.jpg" alt="Family Stack C4">
+              <img src="c5.jpg" alt="Family Stack C5">
+              <img src="c6.jpg" alt="Family Stack C6">
+              <img src="c7.jpg" alt="Family Stack C7">
+              <img src="c8.jpg" alt="Family Stack C8">
+              <img src="c9.jpg" alt="Family Stack C9">
+              <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+            </div>
+            <div class="cap">frowny dad (dont be mad)</div>
+          </div>
+        </div>
+        <span class="stk" style="bottom:16px;right:10px;transform:rotate(14deg);">🚗</span>
+      </div>
+      
+      <div class="sb-page page-right bg-pale">
+        <div class="washi-b"></div>
+        <div class="corner-dec c-tr"></div><div class="corner-dec c-br"></div>
+        <div class="pg-title-in">Albums</div>
+        
+        <div class="photo-slot" style="height:170px;">
+          <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+          <img src="d2.JPG" class="active" alt="Family Stack D1">
+          <img src="d1.JPG" alt="Family Stack D2">
+          <img src="d3.JPG" alt="Family Stack D3">
+          <img src="d4.JPG" alt="Family Stack D4">
+          <img src="d6.JPG" alt="Family Stack D6">
+          <img src="d10.JPG" alt="Family Stack D10">
+          <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+        </div>
+        <div class="cap">kawaii dad!</div>
+        <div class="mt12">
+          <div class="cap-block">Dad, I love you so much! You always solve my technology issues at 11:50 pm in the night, and pick me up from school when i beg you to 🙂</div>
+        </div>
+        
+        <div class="mt12 photo-slot" style="height:100px;">
+          <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+          <img src="e1.jpg" class="active" alt="Family Stack E1">
+          <img src="e2.jpg" alt="Family Stack E2">
+          <img src="e3.jpg" alt="Family Stack E3">
+          <img src="e4.jpg" alt="Family Stack E4">
+          <img src="e5.jpg" alt="Family Stack E5">
+          <img src="e6.jpg" alt="Family Stack E6">
+          <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+        </div>
+        <div class="cap">best messages from da goat (dont hate me again)</div>
+        <span class="stk" style="top:14px;right:14px;transform:rotate(-10deg);">🧭</span>
+      </div>
+    </div>
+
+    <div class="sb-spread" id="sp2">
+      <div class="sb-page page-left bg-kraft">
+        <div class="corner-dec c-tl"></div><div class="corner-dec c-bl"></div>
+        <div class="tape" style="width:14px;height:55px;top:50px;right:-7px;transform:rotate(1deg);"></div>
+        <div class="pg-title-in">People</div>
+        
+        <div class="g3">
+          <div>
+            <div class="photo-slot" style="height:110px;">
+              <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+              <img src="f6.JPG" class="active" alt="Stack F1">
+              <img src="f2.JPG" alt="Family Stack F2">
+              <img src="f3.JPG" alt="Family Stack F3">
+              <img src="f4.JPG" alt="Family Stack F4">
+              <img src="f5.JPG" alt="Family Stack F5">
+              <img src="f1.JPG" alt="Family Stack F6">
+              <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+            </div>
+            <div class="cap">Uma</div>
+          </div>
+          <div>
+            <div class="photo-slot" style="height:110px;">
+              <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+              <img src="g1.jpg" class="active" alt="Stack G1">
+              <img src="g2.jpg" alt="Family Stack G2">
+              <img src="g3.jpg" alt="Family Stack G3">
+              <img src="z4.jpg" alt="Family Stack G4">
+              <img src="z5.jpg" alt="Family Stack G5">
+              <img src="z6.jpg" alt="Family Stack G6">
+              <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+            </div>
+            <div class="cap">Neha</div>
+          </div>
+          <div>
+            <div class="photo-slot" style="height:110px;">
+              <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+              <img src="h1.JPG" class="active" alt="Stack H1">
+              <img src="h2.JPG" alt="Family Stack H2">
+              <img src="h3.JPG" alt="Family Stack F3">
+              <img src="h4.JPG" alt="Family Stack F4">
+              <img src="h5.JPG" alt="Family Stack F5">
+              <img src="z7.JPG" alt="Family Stack F6">
+              <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+            </div>
+            <div class="cap">Me(ur fav)</div>
+          </div>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 8px;">
+          <div style="display: flex; align-items: center; gap: 12px; height: 125px;">
+            <div class="photo-slot" id="music-slot-i1" style="height: 125px; width: 136px; flex-shrink: 0;"
+                 onmouseenter="playTrack()" 
+                 onmouseleave="pauseTrack()">
+              <img src="me.jpeg" style="object-position: center 77%;" alt="Stack I1">
+              <audio id="hover-audio" src="honorable.mp3" preload="auto"></audio>
+            </div>
+            
+            <div class="vinyl-container" id="vinylRecord" onclick="forcePlayAudio(event)">
+              <div class="vinyl-label">
+                <div class="vinyl-center-hole"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 4px; width: 100%;">
+            <div class="cap" style="margin-top: 2px;">HONORABLE MENTION- UR AWESOME DAUGHTER 😎</div>
+            <div class="cap-block" style="max-height: 105px; overflow-y: auto;">Continuing with my amazing speech, your milestone is so cool because who actually turns 50 (except for u of course)!1! You're so cool dad, and your such a role model to me in every way possible--except when ur annoying about the dishwasher. You're very obnoxious sometimes, but thats ok because i still get to ragebait u. thanks for being a 50/50 bad boy, and i think ur the kawaiiest, pretty strong girl dad, so u go gorll!!
+50/50 bad boy reference: <a href="https://www.instagram.com/p/DVgPP1ZgpCs/" target="_blank" style="color: #b8945a; font-weight: bold; text-decoration: underline;">here</a>
+            </div>
+          </div>
+        </div>
+        <span class="stk" style="bottom:14px;right:10px;transform:rotate(18deg);">🛳️</span>
+      </div>
+      
+      <div class="sb-page page-right bg-cream">
+        <div class="washi-t"></div>
+        <div class="corner-dec c-tr"></div><div class="corner-dec c-br"></div>
+        <div class="pg-title-in">People</div>
+        
+        <div class="photo-slot" style="height:240px;">
+          <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+          <img src="j1.JPG" class="active" alt="Stack J1">
+          <img src="j2.JPG" alt="Family Stack J2">
+          <img src="j3.JPG" alt="Family Stack J3">
+          <img src="j4.JPG" alt="Family Stack J4">
+          <img src="j5.JPG" alt="Family Stack J5">
+          <img src="j13.JPG" alt="Family Stack J6">
+          <img src="j8.JPG" alt="Family Stack J8">
+          <img src="j11.JPG" alt="Family Stack J11">
+          <img src="j12.JPG" alt="Family Stack J12">
+          <img src="j14.JPG" alt="Family Stack J14">
+          <img src="j15.JPG" alt="Family Stack J15">
+          <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+        </div>
+        <div class="cap">da best fam 🤡</div>
+        <div class="mt12">
+         <div class="cap-block"><strong>My least favorite dad quotes:</strong>
+       -   "ennake theriyathe pa"
+       -   "i am ur dad. dont be bad"
+       -   "thopaaaaaa"
+       -   "miss yem (not m)"
+      etc. because u have a lot more that wont fit</div>
+         </div>
+        <span class="stk" style="bottom:16px;left:12px;transform:rotate(-8deg);">🏔️</span>
+      </div>
+    </div>
+
+    <div class="sb-spread" id="sp3">
+      <div class="sb-page page-left bg-pale">
+        <div class="corner-dec c-tl"></div><div class="corner-dec c-bl"></div>
+        <div class="pg-title-in">Trips</div>
+        
+        <div class="photo-slot" style="height:212px;">
+          <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+          <img src="q1.JPG" class="active" alt="Stack Q1">
+          <img src="q2.JPG" alt="Family Stack Q2">
+          <img src="q3.JPG" alt="Family Stack Q3">
+          <img src="q4.JPG" alt="Family Stack Q4">
+          <img src="q5.JPG" alt="Family Stack Q5">
+          <img src="q6.JPG" alt="Family Stack Q6">
+          <img src="q7.JPG" alt="Family Stack Q7">
+          <img src="q8.JPG" alt="Family Stack Q8">
+          <img src="q9.JPG" alt="Family Stack Q9">
+          <img src="q10.JPG" alt="Family Stack Q10">
+          <img src="q11.JPG" alt="Family Stack Q11">
+          <img src="q12.JPG" alt="Family Stack Q12">
+          <img src="q13.JPG" alt="Family Stack Q13">
+          <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+        </div>
+        <div class="cap">arvinth dilly dallying around the world 💁‍♀️</div>
+        
+        <div class="mt12 g3">
+          <div>
+            <div class="photo-slot" style="height:90px;">
+              <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+              <img src="r1.jpg" class="active" alt="Stack R1">
+              <img src="r2.jpg" alt="Family Stack R2">
+              <img src="r3.jpg" alt="Family Stack R3">
+              <img src="r4.jpg" alt="Family Stack R4">
+              <img src="r5.jpg" alt="Family Stack R5">
+              <img src="r6.jpg" alt="Family Stack R6">
+              <img src="r7.jpg" alt="Family Stack R7">
+              <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+            </div>
+            <div class="cap">7 Wonders</div>
+          </div>
+          <div>
+            <div class="photo-slot" style="height:90px;">
+              <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+              <img src="s1.JPG" class="active" alt="Stack S1">
+              <img src="s2.JPG" alt="Family Stack S2">
+              <img src="s3.JPG" alt="Family Stack S3">
+              <img src="s4.JPG" alt="Family Stack S4">
+              <img src="s5.JPG" alt="Family Stack S5">
+              <img src="s6.JPG" alt="Family Stack S6">
+              <img src="s7.JPG" alt="Family Stack S7">
+              <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+            </div>
+            <div class="cap">Adventures</div>
+          </div>
+          <div>
+            <div class="photo-slot" style="height:90px;">
+              <button class="gal-arrow gal-prev" onclick="changeGal(this, -1, event)">◀</button>
+              <img src="t1.JPG" class="active" alt="Stack T1">
+              <img src="t2.JPG" alt="Family Stack S2">
+              <img src="t3.JPG" alt="Family Stack S3">
+              <img src="t4.JPG" alt="Family Stack S4">
+              <img src="t5.JPG" alt="Family Stack S5">
+              <img src="t6.JPG" alt="Family Stack S6">
+              <img src="t7.JPG" alt="Family Stack S7">
+              <button class="gal-arrow gal-next" onclick="changeGal(this, 1, event)">▶</button>
+            </div>
+            <div class="cap">Selfies</div>
+          </div>
+        </div>
+        <span class="stk" style="bottom:14px;right:8px;transform:rotate(15deg);">🧳</span>
+      </div>
+      
+      <div class="sb-page page-right bg-kraft">
+        <div class="washi-t"></div>
+        <div class="corner-dec c-tr"></div><div class="corner-dec c-br"></div>
+        <div class="pg-title-in">Reflections</div>
+        
+        <div class="photo-slot" style="height:290px;">
+          <img src="best.jpg" class="active" alt="Stack U1">
+        </div>
+        <div class="cap">Thats all the pictures i have dad! Happy 50th and enjoy baby me :)</div>
+        <div class="mt12">
+          <div class="cap-block">just kiddingggg, i lied. look below!!!!</div>
+        </div>
+        <span class="stk" style="top:14px;right:12px;transform:rotate(-9deg);">🛫</span>
+        
+        <div class="game-hint-text" id="dotHint">click the red dot!</div>
+        <div class="runaway-dot" id="runawayDot" onmouseenter="handleDotMover()" onclick="handleDotClick(event)"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn" id="prevBtn" onclick="go(-1)" disabled>← prev</button>
+    <span class="pg-ind" id="pgInd">cover</span>
+    <button class="nav-btn" id="nextBtn" onclick="go(1)">next →</button>
+  </div>
+</div>
+
+<div class="popup-overlay" id="galleryPopup">
+    <div class="popup-window">
+        <button class="close-window-btn" onclick="closeGalleryPopup()">&times;</button>
+        <div class="featured-display">
+            <img id="popup-featured-img" src="" alt="Selected view">
+        </div>
+        <div class="window-gallery-strip" id="popupThumbnailStrip"></div>
+    </div>
+</div>
+
+<div class="bd-overlay" id="birthdayCelebrationOverlay">
+    <canvas class="bd-canvas" id="confettiCanvas"></canvas>
+    <h1 class="bd-headline">HAPPY BIRTHDAY</h1>
+    
+    <div class="bd-photo-frame">
+        <img src="dad.png" alt="Birthday Family Snapshot">
+    </div>
+    
+    <audio id="celebration-audio" src="happy.mp3" loop></audio>
+    <button class="bd-close-btn" onclick="closeBirthdayOverlay(event)">Close Window</button>
+</div>
+
+<script>
+var cur=0,total=4,dragging=false,dragStartX=0,dragDelta=0;
+var labels=['cover','spread 1 of 3','spread 2 of 3','spread 3 of 3'];
+
+function go(d){
+  var spreads=document.querySelectorAll('.sb-spread');
+  spreads[cur].classList.remove('active');
+  cur=Math.max(0,Math.min(total-1,cur+d));
+  spreads[cur].classList.add('active');
+  document.getElementById('pgInd').textContent=labels[cur];
+  document.getElementById('prevBtn').disabled=cur===0;
+  document.getElementById('nextBtn').disabled=cur===total-1;
+  var rings=document.getElementById('rings');
+  rings.style.display=cur===0?'none':'flex';
+  var spine=document.querySelector('.spine-line');
+  if(spine)spine.style.display=cur===0?'none':'block';
+}
+
+go(0);
+
+var book=document.getElementById('book');
+book.addEventListener('mousedown',function(e){
+  if(e.target.closest('.photo-slot')||e.target.closest('input')||e.target.closest('textarea')||e.target.closest('.vinyl-container')||e.target.closest('#runawayDot'))return;
+  dragging=true;dragStartX=e.clientX;dragDelta=0;
+});
+window.addEventListener('mousemove',function(e){if(dragging)dragDelta=e.clientX-dragStartX;});
+window.addEventListener('mouseup',function(){
+  if(!dragging)return;dragging=false;
+  if(dragDelta<-50)go(1);
+  else if(dragDelta>50)go(-1);
+  dragDelta=0;
+});
+book.addEventListener('touchstart',function(e){
+  if(e.target.closest('.photo-slot')||e.target.closest('input')||e.target.closest('textarea')||e.target.closest('.vinyl-container')||e.target.closest('#runawayDot'))return;
+  dragStartX=e.touches[0].clientX;dragDelta=0;
+},{passive:true});
+book.addEventListener('touchend',function(e){
+  dragDelta=e.changedTouches[0].clientX-dragStartX;
+  if(dragDelta<-50)go(1);
+  else if(dragDelta>50)go(-1);
+},{passive:true});
+
+function changeGal(btn, direction, event) {
+  event.stopPropagation(); 
+  var slot = btn.parentElement;
+  var images = slot.querySelectorAll('img');
+  if (images.length <= 1) return;
+
+  var activeIndex = -1;
+  for (var i = 0; i < images.length; i++) {
+    if (images[i].classList.contains('active')) {
+      activeIndex = i;
+      images[i].classList.remove('active');
+      break;
+    }
+  }
+
+  var nextIndex = activeIndex + direction;
+  if (nextIndex >= images.length) nextIndex = 0;
+  if (nextIndex < 0) nextIndex = images.length - 1;
+
+  images[nextIndex].classList.add('active');
+}
+
+/* =======================================================
+   LIGHTBOX OVERLAY LOGIC (EXCLUDES COVER ART)
+   ======================================================= */
+const galleryPopup = document.getElementById('galleryPopup');
+const popupFeaturedImg = document.getElementById('popup-featured-img');
+const popupThumbnailStrip = document.getElementById('popupThumbnailStrip');
+
+function getScrapbookImages() {
+    return Array.from(document.querySelectorAll('.sb-spread:not(#sp0) .photo-slot'));
+}
+
+document.querySelectorAll('.sb-spread:not(#sp0) .photo-slot').forEach((slot) => {
+    slot.addEventListener('click', function(e) {
+        if (e.target.classList.contains('gal-arrow')) return;
+        
+        e.stopPropagation();
+        var allSlots = getScrapbookImages();
+        var currentSlotIndex = allSlots.indexOf(this);
+        openGalleryPopup(currentSlotIndex);
+    });
+});
+
+function buildPopupStrip() {
+    popupThumbnailStrip.innerHTML = ''; 
+    var allSlots = getScrapbookImages();
+    
+    allSlots.forEach((slot, index) => {
+        var activeImg = slot.querySelector('img.active') || slot.querySelector('img');
+        if (!activeImg) return;
+
+        const thumb = document.createElement('img');
+        thumb.src = activeImg.src;
+        thumb.alt = activeImg.alt || `Memory item ${index + 1}`;
+        thumb.className = 'strip-thumb';
+        thumb.onclick = (e) => {
+            e.stopPropagation();
+            viewImage(index);
+        };
+        popupThumbnailStrip.appendChild(thumb);
+    });
+}
+
+function openGalleryPopup(startIndex) {
+    buildPopupStrip();
+    galleryPopup.style.display = 'flex';
+    viewImage(startIndex);
+}
+
+function viewImage(index) {
+    const thumbs = document.querySelectorAll('.strip-thumb');
+    var allSlots = getScrapbookImages();
+    var targetedImg = allSlots[index].querySelector('img.active') || allSlots[index].querySelector('img');
+
+    if (targetedImg) {
+        popupFeaturedImg.src = targetedImg.src;
+        popupFeaturedImg.alt = targetedImg.alt;
+    }
+
+    thumbs.forEach((thumb, idx) => {
+        if (idx === index) {
+            thumb.classList.add('active');
+            thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+            thumb.classList.remove('active');
+        }
+    });
+}
+
+function closeGalleryPopup() {
+    galleryPopup.style.display = 'none';
+}
+
+galleryPopup.addEventListener('click', function(e) {
+    if (e.target === galleryPopup) closeGalleryPopup();
+});
+
+document.addEventListener('keydown', function(e) {
+    if (galleryPopup.style.display === 'flex' && e.key === 'Escape') closeGalleryPopup();
+});
+
+/* =======================================================
+   AUDIO PLAYER & VINYL SPIN CONTROL
+   ======================================================= */
+const hoverAudio = document.getElementById('hover-audio');
+const vinylRecord = document.getElementById('vinylRecord');
+
+function playTrack() {
+    if (galleryPopup.style.display === 'flex' || document.getElementById('birthdayCelebrationOverlay').style.display === 'flex') return;
+    
+    hoverAudio.currentTime = 0;
+    var playPromise = hoverAudio.play();
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            vinylRecord.classList.add('spinning-active');
+        }).catch(error => {
+            console.warn("Hover autoplay blocked by browser security policy.");
+        });
+    }
+}
+
+function pauseTrack() {
+    if (!vinylRecord.classList.contains('clicked-playing')) {
+        hoverAudio.pause();
+        hoverAudio.currentTime = 0;
+        vinylRecord.classList.remove('spinning-active');
+    }
+}
+
+function forcePlayAudio(event) {
+    event.stopPropagation(); 
+    
+    if (vinylRecord.classList.contains('spinning-active')) {
+        hoverAudio.pause();
+        hoverAudio.currentTime = 0;
+        vinylRecord.className = "vinyl-container";
+    } else {
+        hoverAudio.currentTime = 0;
+        hoverAudio.play().then(() => {
+            vinylRecord.className = "vinyl-container spinning-active clicked-playing";
+        }).catch(err => {
+            alert("File Loading Error: Please check that your audio file is explicitly named 'honorable.mp3' and placed in the exact same directory folder as this webpage!");
+        });
+    }
+}
+
+/* =======================================================
+   EASTER EGG RUNAWAY RED DOT CELEBRATION LOGIC
+   ======================================================= */
+var runawayCount = 0;
+const runawayDot = document.getElementById('runawayDot');
+const dotHint = document.getElementById('dotHint');
+const celebrationOverlay = document.getElementById('birthdayCelebrationOverlay');
+const celebrationAudio = document.getElementById('celebration-audio');
+
+function handleDotMover() {
+    if (runawayCount >= 3) return; 
+    
+    const parentPage = runawayDot.parentElement;
+    const paddingOffset = 30;
+    
+    // Track current position metrics
+    const currentRect = runawayDot.getBoundingClientRect();
+    const currentX = runawayDot.offsetLeft;
+    const currentY = runawayDot.offsetTop;
+    
+    const maxX = parentPage.clientWidth - paddingOffset - runawayDot.clientWidth;
+    const maxY = parentPage.clientHeight - paddingOffset - runawayDot.clientHeight;
+    
+    let randomX = currentX;
+    let randomY = currentY;
+    let distance = 0;
+    
+    // Scale distance exponentially on each hover iteration step profile context
+    // Jump 1: min 80px distance | Jump 2: min 160px distance | Jump 3: min 245px distance
+    const minDistanceThreshold = (runawayCount + 1) * 120; 
+    let loopGuard = 0;
+
+    while (distance < minDistanceThreshold && loopGuard < 100) {
+        let tempX = Math.floor(Math.random() * (maxX - paddingOffset)) + paddingOffset;
+        let tempY = Math.floor(Math.random() * (maxY - paddingOffset)) + paddingOffset;
+        
+        // Calculate hypotenuse delta stretch paths 
+        distance = Math.sqrt(Math.pow(tempX - currentX, 2) + Math.pow(tempY - currentY, 2));
+        if (distance >= minDistanceThreshold || loopGuard > 85) {
+            randomX = tempX;
+            randomY = tempY;
+            break;
+        }
+        loopGuard++;
+    }
+    
+    runawayDot.style.bottom = 'auto';
+    runawayDot.style.right = 'auto';
+    runawayDot.style.left = randomX + 'px';
+    runawayDot.style.top = randomY + 'px';
+    
+    dotHint.style.display = 'none';
+    runawayCount++;
+}
+
+function handleDotClick(event) {
+    event.stopPropagation();
+    
+    if (runawayCount < 3) {
+        handleDotMover();
+        return;
+    }
+    
+    celebrationOverlay.style.display = 'flex';
+    hoverAudio.pause(); 
+    
+    celebrationAudio.currentTime = 0;
+    celebrationAudio.play().catch(err => console.log("Audio permissions warning block checked."));
+    
+    initConfettiEngine();
+}
+
+function closeBirthdayOverlay(event) {
+    event.stopPropagation();
+    celebrationOverlay.style.display = 'none';
+    celebrationAudio.pause();
+    
+    runawayCount = 0;
+    runawayDot.removeAttribute('style');
+    dotHint.style.display = 'block';
+    stopConfettiEngine();
+}
+
+/* --- LIGHTWEIGHT HTML5 CANVAS CONFETTI PARTICLES GENERATOR ENGINE --- */
+let canvasCtx = document.getElementById("confettiCanvas").getContext("2d");
+let canvasElement = document.getElementById("confettiCanvas");
+let particleList = [];
+let animationFrameId = null;
+const paletteColors = ['#4ca3dd', '#54a0ff', '#10ac84', '#ff6b6b', '#feca57', '#5f27cd'];
+
+function resizeConfettiCanvas() {
+    canvasElement.width = window.innerWidth;
+    canvasElement.height = window.innerHeight;
+}
+
+function initConfettiEngine() {
+    resizeConfettiCanvas();
+    window.addEventListener('resize', resizeConfettiCanvas);
+    particleList = [];
+    
+    for (let i = 0; i < 150; i++) {
+        particleList.push({
+            x: Math.random() * canvasElement.width,
+            y: Math.random() * canvasElement.height - canvasElement.height,
+            r: Math.random() * 6 + 4,
+            d: Math.random() * canvasElement.height,
+            color: paletteColors[Math.floor(Math.random() * paletteColors.length)],
+            tilt: Math.random() * 10 - 5,
+            tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+            tiltAngle: 0
+        });
+    }
+    runConfettiLoop();
+}
+
+function runConfettiLoop() {
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    
+    particleList.forEach((p, idx) => {
+        p.tiltAngle += p.tiltAngleIncremental;
+        p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+        p.x += Math.sin(p.tiltAngle);
+        p.tilt = Math.sin(p.tiltAngle - idx / 3) * 15;
+        
+        if (p.y > canvasElement.height) {
+            particleList[idx] = p;
+            p.x = Math.random() * canvasElement.width;
+            p.y = -20;
+            p.tilt = Math.random() * 10 - 5;
+        }
+        
+        canvasCtx.beginPath();
+        canvasCtx.lineWidth = p.r;
+        canvasCtx.strokeStyle = p.color;
+        canvasCtx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+        canvasCtx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+        canvasCtx.stroke();
+    });
+    
+    animationFrameId = requestAnimationFrame(runConfettiLoop);
+}
+
+function stopConfettiEngine() {
+    cancelAnimationFrame(animationFrameId);
+    window.removeEventListener('resize', resizeConfettiCanvas);
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+}
+</script>
